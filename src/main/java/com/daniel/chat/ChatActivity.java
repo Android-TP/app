@@ -3,6 +3,7 @@ package com.daniel.chat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -92,13 +94,13 @@ public class ChatActivity extends AppCompatActivity {
         this.send = (Button)findViewById(R.id.send);
         this.chat = (EditText)findViewById(R.id.chat);
 
-        SharedPreferences pref = getPreferences(Context.MODE_PRIVATE);
-        String name = pref.getString("username", null);
-        if(name==null){
-            this.username = "user1";
-        }else{
-            this.username = name;
+
+        Intent intent = getIntent();
+        String str = "user1";
+        if (intent.hasExtra("username")){ // vérifie qu'une valeur est associée à la clé “username”
+            str = intent.getStringExtra("username"); // on récupère la valeur associée à la clé
         }
+        this.username = str;
         this.getBdd();
         this.last_post = "...";
         this.correspondant_reference();
@@ -117,7 +119,8 @@ public class ChatActivity extends AppCompatActivity {
         this.send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bdd_ref.setValue(chat.getText());
+                Toast.makeText(ChatActivity.this, chat.getText()+username, Toast.LENGTH_SHORT).show();
+                bdd_ref.setValue(chat.getText().toString());
             }
         });
     }

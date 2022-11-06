@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private Button user2;
     private SharedPreferences username;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,20 +33,24 @@ public class MainActivity extends AppCompatActivity {
         user1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(await_intent(ChatActivity.class));
+
+                startActivity(await_intent(ChatActivity.class, "user1"));
                 Toast.makeText(MainActivity.this, "demarrage", Toast.LENGTH_SHORT).show();
             }
         });
         user2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(await_intent(ChatActivity.class));
+
+                startActivity(await_intent(ChatActivity.class, "user2"));
             }
         });
     }
 
-    private Intent await_intent(Class context){
+    private Intent await_intent(Class context, String user){
 
-        return new Intent(MainActivity.this, ChatActivity.class);
+        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+        intent.putExtra("username", user);
+        return intent;
     }
 }
