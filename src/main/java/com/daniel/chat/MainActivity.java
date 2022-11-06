@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private void init_element(){
         this.user1 = (Button)findViewById(R.id.user1);
         this.user2 = (Button)findViewById(R.id.user2);
+        this.username = getPreferences(Context.MODE_PRIVATE);
+        String nom = this.username.getString("username", null);
     }
     private  void event(){
         user1.setOnClickListener(new View.OnClickListener() {
